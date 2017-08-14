@@ -3,7 +3,8 @@ import {
   AppRegistry,
   StyleSheet,
   Text,
-  View
+  View,
+  TextInput
 } from 'react-native';
 import Camera from 'react-native-camera';
 import sendMail from './src/mail-service';
@@ -14,9 +15,12 @@ export default class Utlegg extends Component {
 
   constructor(props) {
     super(props);
+    this.takePicture = this.takePicture.bind(this);
     this.dateChange = this.dateChange.bind(this);
     this.state = {
-      date: new Date()
+      date: new Date(),
+      kr: '',
+      ore: ''
     };
   }
 
@@ -26,7 +30,7 @@ export default class Utlegg extends Component {
       .then((data) => {
         const date = formatToNorwegian(this.state.date);
         const { path } = data;
-        sendMail({ date, path });
+        sendMail({ date, path, amount: `${this.state.kr},${this.state.ore} kr` });
       })
       .catch(err => console.error(err));
   }
@@ -41,11 +45,27 @@ export default class Utlegg extends Component {
         <View style={styles.date}>
           <DatePicker onChange={this.dateChange} date={this.state.date} />
         </View>
+        <View style={styles.sum}>
+          <Text>kr</Text>
+          <TextInput style={styles.sumField}
+                     value={this.state.kr}
+                     onChangeText={(kr) => this.setState({ kr })}
+                     editable = {true}
+                     maxLength = {10} />
+          <Text>øre</Text>
+          <TextInput style={styles.sumField}
+                     onChangeText={(ore) => this.setState({ ore })}
+                     value={this.state.ore}
+                     editable = {true}
+                     maxLength = {10} />
+        </View>
         <Camera
           ref={(cam) => {
             this.camera = cam;
           }}
           style={styles.preview}
+          captureTarget={Camera.constants.CaptureTarget.disk}
+          captureQuality={Camera.constants.CaptureQuality.medium}
           aspect={Camera.constants.Aspect.fill}>
           <Text style={styles.capture} onPress={this.takePicture.bind(this)}>CLICK</Text>
         </Camera>
@@ -55,6 +75,15 @@ export default class Utlegg extends Component {
 }
 
 const styles = StyleSheet.create({
+  sum: {
+    flexDirection: 'row',
+    borderRadius: 4,
+    borderWidth: 0.5,
+    borderColor: '#d6d7da',
+  },
+  sumField: {
+    flex: 0.5
+  },
   date: {
     justifyContent: 'center',
     alignItems: 'center',
