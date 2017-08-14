@@ -8,25 +8,38 @@ import {
 import Camera from 'react-native-camera';
 import sendMail from './src/mail-service';
 import DatePicker from './src/DatePicker';
+import formatToNorwegian from './src/date-service';
 
 export default class Utlegg extends Component {
+
+  constructor(props) {
+    super(props);
+    this.dateChange = this.dateChange.bind(this);
+    this.state = {
+      date: new Date()
+    };
+  }
 
   takePicture() {
     const options = {};
     this.camera.capture({metadata: options})
       .then((data) => {
-        console.log(data);
-        sendMail();
+        const date = formatToNorwegian(this.state.date);
+        console.log(date);
+        sendMail({ date });
       })
       .catch(err => console.error(err));
   }
 
+  dateChange(date) {
+    this.setState({ date });
+  }
+
   render() {
-    console.log(DatePicker);
     return (
       <View style={styles.container}>
         <View style={styles.date}>
-          <DatePicker />
+          <DatePicker onChange={this.dateChange} date={this.state.date} />
         </View>
         <Camera
           ref={(cam) => {

@@ -1,11 +1,10 @@
 import Mailer from 'react-native-mail';
 
-export default sendMail = () =>
+export default sendMail = ({ date }) =>
   Mailer.mail({
-    subject: 'need help',
+    subject: `Lunch ${date}`,
     recipients: ['tbarbiche@gmail.com'],
-    body: '',
-    isHTML: true,
+    body: 'Utlegg',
     attachment: {
       path: '',  // The absolute path of the file from which to read data.
       type: '',   // Mime Type: jpg, png, doc, ppt, html, pdf
