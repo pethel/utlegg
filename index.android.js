@@ -6,7 +6,8 @@ import {
   View
 } from 'react-native';
 import Camera from 'react-native-camera';
-
+import Mailer from 'react-native-mail';
+import sendMail from './src/mail-service';
 
 console.log(Camera);
 
@@ -16,12 +17,15 @@ export default class Utlegg extends Component {
     const options = {};
     //options.location = ...
     this.camera.capture({metadata: options})
-      .then((data) => console.log(data))
+      .then((data) => {
+        console.log(data);
+        sendMail();
+      })
       .catch(err => console.error(err));
   }
 
   render() {
-    console.log('123f');
+    console.log(Mailer);
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>

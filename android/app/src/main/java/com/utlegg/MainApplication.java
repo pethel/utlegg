@@ -1,6 +1,7 @@
 package com.utlegg;
 
 import com.lwansbrough.RCTCamera.RCTCameraPackage;
+import com.chirag.RNMail.*;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
@@ -14,29 +15,30 @@ import java.util.List;
 
 public class MainApplication extends Application implements ReactApplication {
 
-	private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
-		@Override
-		public boolean getUseDeveloperSupport() {
-			return BuildConfig.DEBUG;
-		}
+  private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
+    @Override
+    public boolean getUseDeveloperSupport() {
+      return BuildConfig.DEBUG;
+    }
 
-		@Override
-		protected List<ReactPackage> getPackages() {
-			return Arrays.<ReactPackage>asList(
-					new MainReactPackage(),
-					new RCTCameraPackage()
-			);
-		}
-	};
+    @Override
+    protected List<ReactPackage> getPackages() {
+      return Arrays.<ReactPackage>asList(
+        new MainReactPackage(),
+        new RCTCameraPackage(),
+        new RNMail()
+      );
+    }
+  };
 
-	@Override
-	public ReactNativeHost getReactNativeHost() {
-		return mReactNativeHost;
-	}
+  @Override
+  public ReactNativeHost getReactNativeHost() {
+    return mReactNativeHost;
+  }
 
-	@Override
-	public void onCreate() {
-		super.onCreate();
-		SoLoader.init(this, /* native exopackage */ false);
-	}
+  @Override
+  public void onCreate() {
+    super.onCreate();
+    SoLoader.init(this, /* native exopackage */ false);
+  }
 }
