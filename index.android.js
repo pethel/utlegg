@@ -6,16 +6,13 @@ import {
   View
 } from 'react-native';
 import Camera from 'react-native-camera';
-import Mailer from 'react-native-mail';
 import sendMail from './src/mail-service';
-
-console.log(Camera);
+import DatePicker from './src/DatePicker';
 
 export default class Utlegg extends Component {
 
   takePicture() {
     const options = {};
-    //options.location = ...
     this.camera.capture({metadata: options})
       .then((data) => {
         console.log(data);
@@ -25,26 +22,19 @@ export default class Utlegg extends Component {
   }
 
   render() {
-    console.log(Mailer);
+    console.log(DatePicker);
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to sssswReact Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.android.js
-        </Text>
-        <Text style={styles.instructions}>
-          Double tap Rr on your keyboard to reload,{'\n'}
-          Shake or press menu button for dev menu
-        </Text>
+        <View style={styles.date}>
+          <DatePicker />
+        </View>
         <Camera
           ref={(cam) => {
             this.camera = cam;
           }}
           style={styles.preview}
           aspect={Camera.constants.Aspect.fill}>
-          <Text style={styles.capture} onPress={this.takePicture.bind(this)}>[CAPTURE]</Text>
+          <Text style={styles.capture} onPress={this.takePicture.bind(this)}>CLICK</Text>
         </Camera>
       </View>
     );
@@ -52,22 +42,28 @@ export default class Utlegg extends Component {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
+  date: {
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    padding: 10
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
+  container: {
+    flex: 1,
+    flexDirection: 'column',
   },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
+  preview: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    alignItems: 'center'
   },
+  capture: {
+    flex: 0,
+    backgroundColor: '#fff',
+    borderRadius: 5,
+    color: '#000',
+    padding: 10,
+    margin: 40
+  }
 });
 
 AppRegistry.registerComponent('Utlegg', () => Utlegg);

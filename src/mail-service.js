@@ -4,8 +4,6 @@ export default sendMail = () =>
   Mailer.mail({
     subject: 'need help',
     recipients: ['tbarbiche@gmail.com'],
-    ccRecipients: ['tbarbiche@gmail.com'],
-    bccRecipients: ['tbarbiche@gmail.com'],
     body: '',
     isHTML: true,
     attachment: {
