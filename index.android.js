@@ -25,8 +25,8 @@ export default class Utlegg extends Component {
     this.camera.capture({metadata: options})
       .then((data) => {
         const date = formatToNorwegian(this.state.date);
-        console.log(date);
-        sendMail({ date });
+        const { path } = data;
+        sendMail({ date, path });
       })
       .catch(err => console.error(err));
   }
