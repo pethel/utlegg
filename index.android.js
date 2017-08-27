@@ -19,8 +19,7 @@ export default class Utlegg extends Component {
     this.dateChange = this.dateChange.bind(this);
     this.state = {
       date: new Date(),
-      kr: '',
-      ore: ''
+      sum: ''
     };
   }
 
@@ -30,13 +29,13 @@ export default class Utlegg extends Component {
       .then((data) => {
         const date = formatToNorwegian(this.state.date);
         const { path } = data;
-        sendMail({ date, path, amount: `${this.state.kr},${this.state.ore} kr` });
+        sendMail({ date, path, amount: `${this.state.sum} kr` });
       })
       .catch(err => console.error(err));
   }
 
   dateChange(date) {
-    this.setState({ date });
+    this.setState({ date: new Date(date) });
   }
 
   render() {
@@ -46,16 +45,10 @@ export default class Utlegg extends Component {
           <DatePicker onChange={this.dateChange} date={this.state.date} />
         </View>
         <View style={styles.sum}>
-          <Text>kr</Text>
+          <Text>Summa</Text>
           <TextInput style={styles.sumField}
-                     value={this.state.kr}
-                     onChangeText={(kr) => this.setState({ kr })}
-                     editable = {true}
-                     maxLength = {10} />
-          <Text>øre</Text>
-          <TextInput style={styles.sumField}
-                     onChangeText={(ore) => this.setState({ ore })}
-                     value={this.state.ore}
+                     value={this.state.sum}
+                     onChangeText={(sum) => this.setState({ sum })}
                      editable = {true}
                      maxLength = {10} />
         </View>
@@ -67,7 +60,7 @@ export default class Utlegg extends Component {
           captureTarget={Camera.constants.CaptureTarget.disk}
           captureQuality={Camera.constants.CaptureQuality.medium}
           aspect={Camera.constants.Aspect.fill}>
-          <Text style={styles.capture} onPress={this.takePicture.bind(this)}>CLICK</Text>
+          <Text style={styles.capture} onPress={this.takePicture.bind(this)}>SEND</Text>
         </Camera>
       </View>
     );
@@ -82,7 +75,7 @@ const styles = StyleSheet.create({
     borderColor: '#d6d7da',
   },
   sumField: {
-    flex: 0.5
+    flex: 1
   },
   date: {
     justifyContent: 'center',
